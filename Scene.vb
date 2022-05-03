@@ -13,7 +13,6 @@ Public Class Scene
     Public Sub Update(g As Graphics)
         For Each e As Entity In Me.Entities.Where(Function(x) x.Enabled)
             Me.Cache(e)
-            e.DrawNeighborhood(g)
         Next
         Me.Draw(g)
         For Each e As Entity In Me.Entities.Where(Function(x) x.Enabled)

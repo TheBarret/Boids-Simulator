@@ -39,6 +39,12 @@ Public Class Vector
         End Get
     End Property
 
+    Public ReadOnly Property Round As Vector
+        Get
+            Return New Vector(Math.Round(Me.X), Math.Round(Me.Y))
+        End Get
+    End Property
+
     Public Shared Operator +(ByVal v1 As Vector, ByVal v2 As Vector) As Vector
         Return New Vector(v1.X + v2.X, v1.Y + v2.Y)
     End Operator

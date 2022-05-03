@@ -19,17 +19,18 @@
 
         Public Overridable Sub Draw(g As Graphics)
             g.FillEllipse(New SolidBrush(Me.Color), CSng(Me.Position.X), CSng(Me.Position.Y), Me.Size, Me.Size)
+            g.DrawEllipse(Pens.Black, CSng(Me.Position.X), CSng(Me.Position.Y), Me.Size, Me.Size)
         End Sub
 
         Public Overridable Sub Update(g As Graphics)
             Me.Interact(g)
-            Me.KeepSpeed(0.1, 4)
+            Me.KeepSpeed(0.1, 5)
             Me.UpdateBounds(1.5, 30)
         End Sub
 
         Public Overridable Sub Interact(g As Graphics)
-            Me.Velocity += Me.Group(0.1)
-            Me.Velocity += Me.Align(0.5)
+            Me.Velocity += Me.Group(0.01)
+            Me.Velocity += Me.Align(0.7)
             Me.Velocity += Me.Avoid(0.005)
         End Sub
 
@@ -217,7 +218,8 @@
                 Dim result As New List(Of Entity)
                 Dim quadrant As List(Of Entity) = Me.Scene.Locate(Me)
                 If (quadrant.Count > 0) Then
-                    For Each e As Entity In quadrant.Where(Function(x) x.Type = Me.Type)
+                    For Each e As Entity In quadrant
+                        If (e.Type <> Me.Type) Then Continue For
                         If (e IsNot Nothing AndAlso e Is Me) Then Continue For
                         If (Me.Distance(e) <= distance) Then
                             result.Add(e)
@@ -247,7 +249,7 @@
         End Property
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0} [{1}]", Me.Name, Me.Position)
+            Return String.Format("{0} [{1}]", Me.Name, Me.Position.Round)
         End Function
     End Class
 End Namespace

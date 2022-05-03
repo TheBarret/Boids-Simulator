@@ -5,13 +5,15 @@ Imports Simulator.Models
 Public Class Main
     Public Property Clock As Timer
     Public Property Scene As Scene
+
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
         Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
         Me.SetStyle(ControlStyles.UserPaint, True)
 
         Me.Scene = New Scene(Me.ClientRectangle)
-        Me.Scene.Add(Of Omnivore)(100)
+        Me.Scene.Add(Of Omnivore)(250)
 
         Me.Clock = New Timer(50)
         AddHandler Me.Clock.Elapsed, AddressOf Me.Tick

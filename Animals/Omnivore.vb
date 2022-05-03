@@ -10,7 +10,7 @@ Namespace Animals
         Public Overrides Sub Initialize(index As Integer)
             Me.Index = index
             Me.Enabled = True
-            Me.Color = Color.Blue
+            Me.Color = Color.CornflowerBlue
             Me.Randomize()
         End Sub
 
@@ -22,13 +22,13 @@ Namespace Animals
 
         Public Overrides ReadOnly Property Size As Integer
             Get
-                Return 10
+                Return 5
             End Get
         End Property
 
         Public Overrides ReadOnly Property Sensor As Integer
             Get
-                Return 35
+                Return 20
             End Get
         End Property
     End Class
