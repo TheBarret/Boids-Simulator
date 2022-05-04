@@ -3,6 +3,14 @@ Imports Simulator.Models
 
 Public Module Extensions
 
+    <Extension> Public Function ToDegrees(radians As Double) As Double
+        Return (180 / Math.PI) * radians
+    End Function
+
+    <Extension> Public Function Integral(r As RectangleF) As Rectangle
+        Return New Rectangle(CInt(r.X), CInt(r.Y), CInt(r.Width), CInt(r.Height))
+    End Function
+
     <Extension> Public Function SetAlpha(base As Color, steps As Integer) As Color
         Dim a As Byte, f As Double, c As Color
         If (steps = 0) Then Return base
@@ -12,16 +20,6 @@ Public Module Extensions
             c = Color.FromArgb(a, base.R, base.G, base.B)
         Next
         Return c
-    End Function
-
-    <Extension> Public Function AverageVelocity(values As IEnumerable(Of Entity)) As Vector
-        Dim v As New Vector
-        For Each p In values
-            v += p.Velocity
-        Next
-        v.X = v.X / values.Count
-        v.Y = v.Y / values.Count
-        Return v
     End Function
 
 End Module

@@ -14,6 +14,14 @@ Public Class Vector
         Me.Y = y
     End Sub
 
+    Public Function Reflect() As Vector
+        Return (Me - 2.0F) * Me.Dot * Me
+    End Function
+
+    Public Function Dot() As Double
+        Return Me.X * Me.Y
+    End Function
+
     Public Function Length() As Double
         Return Math.Sqrt(X * X + Y * Y)
     End Function
@@ -32,6 +40,18 @@ Public Class Vector
     Public Function SqrtMagnitude() As Double
         Return Math.Sqrt(X * X + Y * Y)
     End Function
+
+    Public ReadOnly Property X32 As Single
+        Get
+            Return CSng(Me.X)
+        End Get
+    End Property
+
+    Public ReadOnly Property Y32 As Single
+        Get
+            Return CSng(Me.Y)
+        End Get
+    End Property
 
     Public ReadOnly Property ToPointF() As PointF
         Get
@@ -53,8 +73,16 @@ Public Class Vector
         Return New Vector(v1.X - v2.X, v1.Y - v2.Y)
     End Operator
 
+    Public Shared Operator -(ByVal v1 As Vector, ByVal v2 As Double) As Vector
+        Return New Vector(v1.X - v2, v1.Y - v2)
+    End Operator
+
     Public Shared Operator *(ByVal v1 As Vector, ByVal v2 As Vector) As Vector
         Return New Vector(v1.X * v2.X, v1.Y * v2.Y)
+    End Operator
+
+    Public Shared Operator *(ByVal v1 As Vector, ByVal v2 As Double) As Vector
+        Return New Vector(v1.X * v2, v1.Y * v2)
     End Operator
 
     Public Shared Operator /(ByVal v1 As Vector, ByVal v2 As Double) As Vector

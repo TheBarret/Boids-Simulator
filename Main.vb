@@ -1,10 +1,9 @@
 ﻿Imports System.Timers
-Imports Simulator.Animals
-Imports Simulator.Models
+Imports Simulator.Entities
 
 Public Class Main
     Public Property Clock As Timer
-    Public Property Scene As Scene
+    Public Property Engine As Engine
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -12,8 +11,9 @@ Public Class Main
         Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
         Me.SetStyle(ControlStyles.UserPaint, True)
 
-        Me.Scene = New Scene(Me.ClientRectangle)
-        Me.Scene.Add(Of Omnivore)(250)
+        Me.Engine = New Engine(Me.ClientRectangle)
+        Me.Engine.Add(Of Boid)(200)
+        Me.Engine.Add(Of Predator)(2)
 
         Me.Clock = New Timer(50)
         AddHandler Me.Clock.Elapsed, AddressOf Me.Tick
@@ -21,15 +21,7 @@ Public Class Main
     End Sub
 
     Private Sub Tick(sender As Object, e As ElapsedEventArgs)
-        Using bm As New Bitmap(Me.ClientRectangle.Width, Me.ClientRectangle.Height)
-            Using g As Graphics = Graphics.FromImage(bm)
-                g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-                g.InterpolationMode = Drawing2D.InterpolationMode.NearestNeighbor
-                g.Clear(Color.WhiteSmoke)
-                Me.Scene.Update(g)
-            End Using
-            Me.Draw(CType(bm.Clone, Bitmap))
-        End Using
+        Me.Draw(Me.Engine.Frame)
     End Sub
 
     Private Sub Draw(bm As Bitmap)

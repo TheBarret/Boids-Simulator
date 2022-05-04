@@ -1,7 +1,7 @@
 ﻿Imports Simulator.Models
 
-Public Class Scene
-    Inherits World
+Public Class Engine
+    Inherits Quadrant
     Public Property Entities As List(Of Entity)
 
     Sub New(bounds As Rectangle)
@@ -11,18 +11,27 @@ Public Class Scene
     End Sub
 
     Public Sub Update(g As Graphics)
-        For Each e As Entity In Me.Entities.Where(Function(x) x.Enabled)
-            Me.Cache(e)
-        Next
-        Me.Draw(g)
-        For Each e As Entity In Me.Entities.Where(Function(x) x.Enabled)
-            e.Draw(g)
-        Next
+        Dim entities As IEnumerable(Of Entity) = Me.Entities.Where(Function(x) x.Enabled)
+        Me.Prerender(entities)
+        Me.DrawQuadrants(g)
         For Each e As Entity In Me.Entities.Where(Function(x) x.Enabled)
             e.Update(g)
+            e.Draw(g)
         Next
-        Me.Clear()
+        Me.Cleanup()
     End Sub
+
+    Public Function Frame() As Bitmap
+        Using bm As New Bitmap(Me.Bounds.Integral.Width, Me.Bounds.Integral.Height)
+            Using g As Graphics = Graphics.FromImage(bm)
+                g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+                g.InterpolationMode = Drawing2D.InterpolationMode.NearestNeighbor
+                g.Clear(Color.WhiteSmoke)
+                Me.Update(g)
+                Return CType(bm.Clone, Bitmap)
+            End Using
+        End Using
+    End Function
 
     Public Sub Add(Of T As Entity)(amount As Integer)
         Dim instance As Object = Nothing

@@ -1,7 +1,7 @@
 ﻿Namespace Models
     Public Enum EntityType
-        Herbivore
-        Omnivore
-        Carnivore
+        Boid
+        Obstacle
+        Pedator
     End Enum
 End Namespace
